@@ -4,6 +4,9 @@ class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure",run
                       $daemonize     = hiera("${module_name}::agent::daemonize",true),
                       $cronschedule  = hiera("${module_name}::agent::cronschedule", '*/30 * * * *')) {
 
+  validate_bool($enable,$daemonize)
+  if !is_domain_name($server) { warning ("${server} is not a valid fqdn") }
+
   puppet::config { 'server':
     value   => $server,
     section => 'agent'
