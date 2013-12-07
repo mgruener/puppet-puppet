@@ -20,8 +20,8 @@ class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure",run
   }
 
   if !$daemonize {
-    $file_ensure = $enable => {
-      true => file
+    $file_ensure = $enable ? {
+      true => file,
       false => absent
     }
 
