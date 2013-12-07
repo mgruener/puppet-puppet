@@ -38,11 +38,11 @@ class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure",run
   }
   else {
     case $::operatingsystem {
-      'Fedora': { $servicename = 'puppetagent.service' 
+      'Fedora': { $servicename = 'puppetagent.service'
                   $serviceprovider = systemd
       }
-      default: { $servicename = 'puppet'
-                 $serviceprovider = undef
+      default: {  $servicename = 'puppet'
+                  $serviceprovider = undef
       }
     }
 
