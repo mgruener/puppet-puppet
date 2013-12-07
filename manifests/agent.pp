@@ -1,4 +1,5 @@
-class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure"),
+class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure",running),
+                      $enable        = hiera("${module_name}::agent::enable",true),
                       $server        = hiera("${module_name}::agent::server",$fqdn),
                       $daemonize     = hiera("${module_name}::agent::daemonize",true),
                       $cronschedule  = hiera("${module_name}::agent::cronschedule", '*/30 * * * *')) {
@@ -19,10 +20,9 @@ class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure"),
   }
 
   if !$daemonize {
-    case $ensure {
-      present: { $file_ensure = file }
-      absent: { $file_ensure = absent }
-      default: { fail('Only present and absent are valid ensure values in non-daemon mode!') }
+    $file_ensure = $enable => {
+      true => file
+      false => absent
     }
 
     file { '/etc/cron.d/puppetagent':
@@ -45,7 +45,8 @@ class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure"),
 
     service { $servicename:
       ensure   => $ensure,
-      provider => $serviceprovider
+      enable   => $enable,
+      provider => $serviceprovider,
     }
   }
 }
