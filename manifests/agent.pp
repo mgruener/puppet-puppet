@@ -1,5 +1,5 @@
 class puppet::agent ( $ensure        = hiera("${module_name}::agent::ensure"),
-                      $server        = hiera("${module_name}::agent::server"),
+                      $server        = hiera("${module_name}::agent::server",$fqdn),
                       $daemonize     = hiera("${module_name}::agent::daemonize",true),
                       $cronschedule  = hiera("${module_name}::agent::cronschedule", '*/30 * * * *')) {
 
