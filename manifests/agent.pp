@@ -1,9 +1,9 @@
 class puppet::agent (
-  $ensure       = hiera("${module_name}::agent::ensure",running),
-  $enable       = hiera("${module_name}::agent::enable",true),
-  $server       = hiera("${module_name}::agent::server",$fqdn),
-  $daemonize    = hiera("${module_name}::agent::daemonize",true),
-  $cronschedule = hiera("${module_name}::agent::cronschedule", '*/30 * * * *')
+  $ensure       = running,
+  $enable       = true,
+  $server       = $::fqdn,
+  $daemonize    = true,
+  $cronschedule = '*/30 * * * *',
 ) {
 
   validate_bool($enable,$daemonize)
