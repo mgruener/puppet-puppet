@@ -1,5 +1,7 @@
-class puppet::master ($ensure = hiera("${module_name}::master::ensure",running),
-                      $enable = hiera("${module_name}::master::enable",true)) {
+class puppet::master (
+  $ensure = hiera("${module_name}::master::ensure",running),
+  $enable = hiera("${module_name}::master::enable",true)
+) {
 
   validate_bool($enable)
 

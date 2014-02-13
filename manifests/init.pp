@@ -1,4 +1,6 @@
-class puppet ( $config = hiera_hash("${module_name}::config",undef)) {
+class puppet (
+  $config = hiera_hash("${module_name}::config",undef)
+) {
   include puppet::agent
 
   if $config != undef {

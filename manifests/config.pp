@@ -1,7 +1,9 @@
-define puppet::config ( $ensure = present,
-                        $section = 'main',
-                        $value = undef,
-                        $configfile = '/etc/puppet/puppet.conf' ) {
+define puppet::config (
+  $ensure = present,
+  $section = 'main',
+  $value = undef,
+  $configfile = '/etc/puppet/puppet.conf',
+) {
 
   case $ensure {
     present: {
