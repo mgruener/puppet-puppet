@@ -1,7 +1,9 @@
 class puppet::master (
   $ensure = running,
   $enable = true,
-) {
+  $master_servicename = $::puppet::params::master_servicename,
+  $master_serviceprovider = $::puppet::params::master_serviceprovider,
+) inherits puppet::params {
 
   validate_bool($enable)
 
@@ -9,18 +11,9 @@ class puppet::master (
     ensure => present
   }
 
-  case $::operatingsystem {
-    'Fedora': { $servicename = 'puppetmaster.service'
-                $serviceprovider = systemd
-    }
-    default: {  $servicename = 'puppetmaster'
-                $serviceprovider = undef
-    }
-  }
-
-  service { $servicename:
+  service { $master_servicename:
     ensure   => $ensure,
     enable   => $enable,
-    provider => $serviceprovider,
+    provider => $master_serviceprovider,
   }
 }

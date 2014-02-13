@@ -4,7 +4,9 @@ class puppet::agent (
   $server       = $::fqdn,
   $daemonize    = true,
   $cronschedule = '*/30 * * * *',
-) {
+  $agent_servicename = $::puppet::params::agent_servicename,
+  $agent_serviceprovider = $::puppet::params::agent_serviceprovider,
+) inherits puppet::params {
 
   validate_bool($enable,$daemonize)
   if !is_domain_name($server) { warning ("${server} is not a valid fqdn") }
@@ -39,19 +41,10 @@ class puppet::agent (
     }
   }
   else {
-    case $::operatingsystem {
-      'Fedora': { $servicename = 'puppetagent.service'
-                  $serviceprovider = systemd
-      }
-      default: {  $servicename = 'puppet'
-                  $serviceprovider = undef
-      }
-    }
-
-    service { $servicename:
+    service { $agent_servicename:
       ensure   => $ensure,
       enable   => $enable,
-      provider => $serviceprovider,
+      provider => $agent_serviceprovider,
     }
   }
 }

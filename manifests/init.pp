@@ -1,5 +1,5 @@
 class puppet (
-  $config = undef
+  $config = undef,
   $hiera_merge = false,
 ) {
   $myclass = $module_name
