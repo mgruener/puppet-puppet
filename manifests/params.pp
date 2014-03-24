@@ -1,7 +1,7 @@
 class puppet::params {
       case $::operatingsystem {
       'Fedora': { $serviceprovider = systemd
-                  $agent_servicename = 'puppetagent.service'
+                  $agent_servicename = 'puppet.service'
                   $agent_serviceprovider = $serviceprovider
                   $master_servicename = 'puppetmaster.service'
                   $master_serviceprovider = $serviceprovider
